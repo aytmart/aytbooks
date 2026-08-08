@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">বই — AYT Books</title>
+<meta id="page-desc" name="description" content="AYT Books">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="topbar-contact">
+      <span>📞 +880 1786-840952</span>
+      <span>🕘 প্রতিদিন সকাল ৯টা – রাত ১০টা</span>
+    </div>
+    <a href="https://wa.me/8801786840952" target="_blank" rel="noopener">WhatsApp এ মেসেজ করুন →</a>
+  </div>
+</div>
+
+<header class="site">
+  <nav class="nav wrap">
+    <a class="brand" href="index.html">
+      <span class="brand-seal">AYT</span>
+      <span class="brand-text">
+        <span class="name">AYT Books</span>
+        <span class="tagline">পড়ুন · জানুন · কিনুন</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-page="index.html">হোম</a></li>
+      <li><a href="books.html" data-page="books.html" class="active">সকল বই</a></li>
+      <li><a href="about.html" data-page="about.html">আমাদের সম্পর্কে</a></li>
+      <li><a href="contact.html" data-page="contact.html">যোগাযোগ</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a class="btn btn-gold btn-sm" href="https://wa.me/8801786840952" target="_blank" rel="noopener">অর্ডার করুন</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<section style="padding-top:38px;">
+  <div class="wrap" id="book-detail">
+    <!-- JS দ্বারা পূরণ হবে -->
+    <p class="empty-state">লোড হচ্ছে...</p>
+  </div>
+</section>
+
+<section class="related-strip" id="related-section" style="display:none; padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">আরও পড়ুন</span>
+        <h2>একই ক্যাটাগরির অন্যান্য বই</h2>
+      </div>
+    </div>
+    <div class="book-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html" style="margin-bottom:14px; display:flex;">
+        <span class="brand-seal">AYT</span>
+        <span class="brand-text"><span class="name" style="color:#F6F1E4;">AYT Books</span></span>
+      </a>
+      <p>বাংলা ভাষায় মানসম্মত বইয়ের অনলাইন লাইব্রেরি ও বুকশপ। পড়ুন ফ্রি, কিনুন সহজে।</p>
+    </div>
+    <div>
+      <h4>পেজসমূহ</h4>
+      <ul>
+        <li><a href="index.html">হোম</a></li>
+        <li><a href="books.html">সকল বই</a></li>
+        <li><a href="about.html">আমাদের সম্পর্কে</a></li>
+        <li><a href="contact.html">যোগাযোগ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>ক্যাটাগরি</h4>
+      <ul id="footer-cats"></ul>
+    </div>
+    <div>
+      <h4>যোগাযোগ</h4>
+      <ul>
+        <li>📞 +880 1786-840952</li>
+        <li><a href="https://wa.me/8801786840952" target="_blank" rel="noopener">💬 WhatsApp এ মেসেজ</a></li>
+        <li>✉️ order@aytbooks.example</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© <span id="year"></span> AYT Books. সর্বস্বত্ব সংরক্ষিত।</span>
+    <span>Made with 📖 in Bangladesh</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/8801786840952" target="_blank" rel="noopener" aria-label="WhatsApp এ যোগাযোগ করুন">💬</a>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  document.getElementById("footer-cats").innerHTML = CATEGORIES.slice(0,5).map(
+    c => `<li><a href="books.html?cat=${c.id}">${c.label}</a></li>`
+  ).join("");
+
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+  const book = BOOKS.find(b => b.id === id);
+  const wrap = document.getElementById("book-detail");
+
+  if (!book) {
+    wrap.innerHTML = `
+      <div class="empty-state">
+        <h2>😔 বইটি খুঁজে পাওয়া যায়নি</h2>
+        <p>লিংকটি সঠিক নয় অথবা বইটি সরিয়ে ফেলা হয়েছে।</p>
+        <a class="btn btn-forest" href="books.html">সকল বই দেখুন</a>
+      </div>`;
+  } else {
+    document.getElementById("page-title").textContent = `${book.title} — AYT Books`;
+    document.getElementById("page-desc").setAttribute("content", (book.description || "").slice(0, 155));
+
+    const cat = getCategory(book.category);
+    const metaRows = [
+      book.author ? ["লেখক / সংকলক", book.author] : null,
+      book.editor ? ["সম্পাদনা", book.editor] : null,
+      book.publisher ? ["প্রকাশনী", book.publisher] : null,
+      book.language ? ["ভাষা", book.language] : null,
+      book.pages ? ["পৃষ্ঠা সংখ্যা", book.pages] : null,
+      book.isbn ? ["ISBN", book.isbn] : null,
+      book.edition ? ["সংস্করণ", book.edition] : null,
+    ].filter(Boolean);
+
+    wrap.innerHTML = `
+      <div class="crumbs">
+        <a href="index.html">হোম</a> / <a href="books.html">সকল বই</a> /
+        <a href="books.html?cat=${book.category}">${cat ? cat.label : ""}</a> / ${book.title}
+      </div>
+      <div class="detail-grid">
+        <div class="detail-cover-wrap">
+          <div class="detail-cover" style="background:${book.cover ? `url('${book.cover}') center/cover` : coverGradient(book)}">
+            ${!book.cover ? `<div><div class="cv-title">${book.title}</div><div class="cv-author">${book.author || ""}</div></div>` : ""}
+          </div>
+          <div class="detail-meta">
+            ${metaRows.map(([k,v]) => `<div><span>${k}</span><span>${v}</span></div>`).join("")}
+          </div>
+          <div class="detail-actions">
+            <button class="btn btn-gold btn-block" id="read-btn">📖 অনলাইনে ফ্রি পড়ুন</button>
+            <a class="btn btn-whatsapp btn-block" href="${waLink(book)}" target="_blank" rel="noopener">💬 WhatsApp এ অর্ডার করুন</a>
+          </div>
+        </div>
+        <div>
+          <span class="book-cat-tag">${cat ? cat.label : ""}</span>
+          <h1>${book.title}</h1>
+          ${book.titleEn ? `<p style="color:rgba(20,35,28,.55); font-style:italic; margin-top:-6px;">${book.titleEn}</p>` : ""}
+          <div class="tag-row">${(book.tags || []).map(t => `<span class="tag-pill">${t}</span>`).join("")}</div>
+
+          <div class="price-box">
+            <div>
+              <div class="p-label">মূল্য</div>
+              <div class="p-amount">${book.currency || "৳"}${book.price}</div>
+            </div>
+            <a class="btn btn-whatsapp" href="${waLink(book)}" target="_blank" rel="noopener">এখনই অর্ডার করুন</a>
+          </div>
+
+          <div class="desc-block">
+            <h2>বই সম্পর্কে</h2>
+            <p>${book.description || "বিস্তারিত শীঘ্রই যুক্ত করা হবে।"}</p>
+          </div>
+
+          <div class="reader-panel" id="reader-panel">
+            <div class="reader-bar">
+              <span>📖 ${book.title} — অনলাইন রিডার</span>
+              <a href="${book.pdf}" target="_blank" rel="noopener" style="color:#E0C268;">নতুন ট্যাবে খুলুন ↗</a>
+            </div>
+            <iframe id="reader-frame" title="${book.title} reader" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const readBtn = document.getElementById("read-btn");
+    const panel = document.getElementById("reader-panel");
+    const frame = document.getElementById("reader-frame");
+    readBtn.addEventListener("click", () => {
+      const isOpen = panel.classList.toggle("open");
+      if (isOpen && !frame.src) frame.src = book.pdf + "#toolbar=1&view=FitH";
+      readBtn.textContent = isOpen ? "🔽 রিডার বন্ধ করুন" : "📖 অনলাইনে ফ্রি পড়ুন";
+      if (isOpen) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    // Related books
+    const related = BOOKS.filter(b => b.category === book.category && b.id !== book.id).slice(0, 4);
+    if (related.length) {
+      document.getElementById("related-section").style.display = "block";
+      document.getElementById("related-grid").innerHTML = related.map(bookCardHTML).join("");
+    }
+  }
+</script>
+</body>
+</html>
