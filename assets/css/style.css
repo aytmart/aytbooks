@@ -37,6 +37,12 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
+/* Native cross-page "picked this book off the shelf" continuity.
+   Progressive enhancement only — unsupported browsers just navigate normally. */
+@view-transition {
+  navigation: auto;
+}
+
 body {
   margin: 0;
   font-family: "Hind Siliguri", "Segoe UI", sans-serif;

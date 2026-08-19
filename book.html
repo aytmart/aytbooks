@@ -141,7 +141,7 @@
       </div>
       <div class="detail-grid">
         <div class="detail-cover-wrap">
-          <div class="detail-cover" style="background:${book.cover ? `url('${book.cover}') center/cover` : coverGradient(book)}">
+          <div class="detail-cover" style="background:${book.cover ? `url('${book.cover}') center/cover` : coverGradient(book)};view-transition-name:cover-${(book.id||"").replace(/[^a-zA-Z0-9_-]/g,"")};">
             ${!book.cover ? `<div><div class="cv-title">${book.title}</div><div class="cv-author">${book.author || ""}</div></div>` : ""}
           </div>
           <div class="detail-meta">

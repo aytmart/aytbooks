@@ -109,7 +109,8 @@
 
   const params = new URLSearchParams(location.search);
   let activeCat = params.get("cat") || "all";
-  let query = "";
+  let query = params.get("q") || "";
+  if (query) document.getElementById("search-input").value = query;
 
   function renderFilters() {
     const chips = [{ id: "all", label: "সব বই" }, ...CATEGORIES];

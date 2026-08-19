@@ -1,0 +1,324 @@
+/* =========================================================================
+   AYT Books — "Library" layer
+   Loaded ONLY on index.html, on top of style.css. Extends the existing
+   Dusk Library palette (--forest / --gold / --paper / --ink) — no new
+   colors invented, just a richer homepage-only presentation.
+   ========================================================================= */
+
+:root {
+  --wood: #5b3a24;
+  --wood-2: #3f2818;
+  --wood-light: #7a5133;
+  --grain: rgba(0,0,0,0.12);
+}
+
+/* subtle repeating geometric motif — used sparingly, low opacity */
+.islamic-pattern {
+  position: relative;
+}
+.islamic-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><g fill='none' stroke='%23C9A227' stroke-width='1'><path d='M32 2 L62 32 L32 62 L2 32 Z'/><circle cx='32' cy='32' r='14'/></g></svg>");
+  background-size: 64px 64px;
+}
+
+/* ---------- shared section framing ---------- */
+.lib-eyebrow-row { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:30px; }
+.lib-kicker { font-size: 1.35rem; }
+
+/* ---------- Hero add-ons ---------- */
+.hero-mini-shelf { margin-top: 6px; margin-bottom: 30px; }
+.hero-mini-label {
+  display:block;
+  font-size:0.78rem;
+  letter-spacing:0.08em;
+  color: var(--gold-soft);
+  margin-bottom: 12px;
+}
+.hero-mini-books { display:flex; gap:14px; }
+.mini-cover-link { width: 64px; flex-shrink:0; transition: transform .2s ease; }
+.mini-cover-link:hover { transform: translateY(-4px); }
+.mini-cover-link .book-cover { aspect-ratio: 3/4.2; margin-bottom:0; box-shadow: 0 10px 18px rgba(0,0,0,0.35); }
+.mini-cover-link .cv-title { font-size: 0.56rem; line-height:1.3; }
+.mini-cover-link .cv-author { display:none; }
+.mini-cover-link .cv-badge { display:none; }
+
+/* ---------- Shelf blocks ---------- */
+#shelves-wrap { display:flex; flex-direction:column; gap:56px; }
+.shelf-block { }
+.shelf-head { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+.shelf-badge { font-size:1.4rem; margin-right:8px; }
+.shelf-head h3 { display:inline; font-size:1.35rem; }
+.shelf-head p { margin:8px 0 0; color:rgba(20,35,28,0.6); font-size:0.9rem; max-width:60ch; }
+.shelf-link { font-size:0.85rem; color:var(--forest); font-weight:600; white-space:nowrap; }
+.shelf-link:hover { color: var(--gold); }
+
+.wood-shelf {
+  position: relative;
+  padding: 28px 26px 40px;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 6px),
+    linear-gradient(180deg, var(--wood-light) 0%, var(--wood) 55%, var(--wood-2) 100%);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.25), 0 20px 40px rgba(15,10,5,0.28);
+  overflow: hidden;
+}
+.shelf-books {
+  display: flex;
+  gap: 22px;
+  align-items: flex-end;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.shelf-books::-webkit-scrollbar { height: 6px; }
+.shelf-books::-webkit-scrollbar-thumb { background: rgba(246,241,228,0.35); border-radius: 6px; }
+.shelf-plank {
+  position: absolute;
+  left: 0; right: 0; bottom: 14px;
+  height: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.05));
+  box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+}
+
+/* physical books on the wood shelf */
+.phys-book {
+  position: relative;
+  flex: 0 0 auto;
+  width: 148px;
+  scroll-snap-align: start;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), filter .25s ease;
+  filter: brightness(0.97);
+}
+.phys-book .book-cover {
+  aspect-ratio: 3/4.4;
+  margin-bottom: 0;
+  box-shadow: 3px 10px 18px rgba(0,0,0,0.45);
+}
+.phys-book:hover, .phys-book:focus-visible {
+  transform: translateY(-14px) rotate(0deg) scale(1.045);
+  filter: brightness(1.06);
+  z-index: 5;
+}
+.phys-book:hover .book-cover, .phys-book:focus-visible .book-cover {
+  box-shadow: 0 26px 34px rgba(0,0,0,0.45);
+}
+.phys-micro {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translate(-50%, 0);
+  width: 168px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  z-index: 10;
+  text-align: left;
+}
+.phys-book:hover .phys-micro, .phys-book:focus-visible .phys-micro {
+  opacity: 1;
+  transform: translate(-50%, 14px);
+}
+.phys-micro strong { display:block; font-family:"Tiro Bangla", serif; font-size:0.86rem; color:var(--forest); line-height:1.35; }
+.phys-micro em { display:block; font-style:normal; font-size:0.7rem; color:rgba(20,35,28,0.55); margin:3px 0 6px; }
+.phys-micro b { color: var(--gold); font-size:0.82rem; }
+.phys-cta { display:block; margin-top:6px; font-size:0.72rem; color: var(--forest); font-weight:600; }
+.phys-cta::after { content:" →"; }
+
+/* ---------- Jammed / reveal stack (the "shove books apart" shelf) ---------- */
+.jam-section { }
+.jam-intro { max-width: 62ch; }
+.jam-stage {
+  position: relative;
+  margin-top: 30px;
+  padding: 40px 60px 24px;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 6px),
+    linear-gradient(180deg, var(--wood-light) 0%, var(--wood) 55%, var(--wood-2) 100%);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.25), 0 20px 40px rgba(15,10,5,0.28);
+}
+.jam-track {
+  position: relative;
+  height: 260px;
+  margin: 0 auto;
+  width: 190px;
+  touch-action: pan-y;
+}
+.jam-spine {
+  position: absolute;
+  top: 0; left: 0;
+  width: 150px;
+  height: 210px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transform-origin: bottom left;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), filter .3s ease;
+}
+.jam-spine .book-cover { height: 100%; aspect-ratio: auto; margin: 0; box-shadow: 4px 12px 22px rgba(0,0,0,0.5); }
+.jam-spine.is-front { cursor: grab; }
+.jam-spine.is-dragging { cursor: grabbing; transition: none; }
+.jam-spine:not(.is-front):hover { filter: brightness(1.15) !important; }
+.jam-shelf-plank {
+  position: absolute;
+  left: 30px; right: 30px; bottom: 18px;
+  height: 14px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.05));
+  box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+}
+.jam-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(246,241,228,0.4);
+  background: rgba(20,35,28,0.35);
+  color: var(--paper);
+  font-size: 1.3rem;
+  display: flex; align-items:center; justify-content:center;
+  backdrop-filter: blur(2px);
+}
+.jam-nav:hover { background: var(--gold); color: var(--forest); border-color: var(--gold); }
+.jam-nav.prev { left: 10px; }
+.jam-nav.next { right: 10px; }
+.jam-hint {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.82rem;
+  color: var(--paper-2);
+  opacity: 0.85;
+}
+.jam-dots { display:flex; justify-content:center; gap:7px; margin-top: 14px; }
+.jam-dot { width:6px; height:6px; border-radius:50%; background: rgba(246,241,228,0.35); }
+.jam-dot.active { background: var(--gold); width:16px; border-radius:4px; }
+
+/* ---------- Book of the Day ---------- */
+.botd {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 54px;
+  align-items: center;
+}
+.botd-cover .book-cover { aspect-ratio: 3/4.3; box-shadow: 0 30px 60px rgba(15,61,62,0.35); margin: 0; }
+.botd-info .eyebrow { margin-bottom: 14px; }
+.botd-info h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); margin-bottom: 4px; }
+.botd-sub { font-style: italic; color: rgba(20,35,28,0.5); margin: 0 0 14px; }
+.botd-meta { display:flex; gap:10px; font-size:0.85rem; color: rgba(20,35,28,0.6); margin-bottom: 16px; }
+.botd-desc { line-height: 1.85; color: rgba(20,35,28,0.8); max-width: 62ch; margin-bottom: 20px; }
+.botd-price { font-family:"Tiro Bangla", serif; font-size:1.4rem; color: var(--gold); margin-bottom: 20px; }
+.botd-actions { display:flex; gap:14px; flex-wrap:wrap; }
+
+/* ---------- Curated collections ---------- */
+.collections-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap:20px; }
+.collection-card {
+  text-align: left;
+  background: var(--forest);
+  color: var(--paper);
+  border: none;
+  border-radius: var(--radius);
+  padding: 26px 22px;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  position: relative;
+  overflow: hidden;
+}
+.collection-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); background: var(--forest-3); }
+.collection-count { font-family:"Cormorant Garamond", serif; font-style:italic; font-size:0.85rem; color: var(--gold-soft); }
+.collection-card h3 { color: var(--paper); font-size:1.2rem; margin: 8px 0 14px; }
+.collection-cta { font-size:0.82rem; color: var(--gold); font-weight:600; }
+#collection-preview { display:none; margin-top: 36px; }
+
+/* ---------- Brand statement ---------- */
+.brand-statement { text-align:center; padding: 90px 0; }
+.brand-statement .bs-mark { font-family:"Tiro Bangla", serif; font-size:1.1rem; letter-spacing:0.14em; color: var(--gold); margin-bottom: 14px; }
+.brand-statement h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); max-width: 22ch; margin: 0 auto 18px; }
+.brand-statement p { max-width: 46ch; margin: 0 auto; color: rgba(246,241,228,0.7); line-height:1.8; }
+
+/* ---------- Search overlay ---------- */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(15, 26, 21, 0.72);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10vh 20px 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.search-overlay.open { opacity: 1; pointer-events: auto; }
+.so-panel {
+  width: 100%;
+  max-width: 620px;
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.45);
+  padding: 26px 26px 30px;
+  transform: translateY(-12px);
+  transition: transform .2s ease;
+}
+.search-overlay.open .so-panel { transform: translateY(0); }
+.so-head { display:flex; align-items:center; gap:12px; margin-bottom: 18px; }
+.so-head input {
+  flex: 1;
+  border: none;
+  border-bottom: 2px solid var(--line-strong);
+  background: transparent;
+  font-family: "Tiro Bangla", serif;
+  font-size: 1.25rem;
+  padding: 8px 2px;
+  color: var(--ink);
+}
+.so-head input:focus { outline:none; border-color: var(--gold); }
+.so-close { background:none; border:none; font-size:1.3rem; color: rgba(20,35,28,0.5); cursor:pointer; }
+.so-close:hover { color: var(--forest); }
+.so-chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 14px; }
+.so-chip {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-2);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--forest);
+}
+.so-chip:hover { border-color: var(--gold); background: var(--paper-3); }
+.so-results { display:flex; flex-direction:column; }
+.so-result { display:flex; justify-content:space-between; gap:14px; padding: 12px 4px; border-bottom: 1px dashed var(--line); }
+.so-result:hover { color: var(--forest); }
+.so-result-title { font-family:"Tiro Bangla", serif; }
+.so-result-meta { font-size:0.78rem; color: rgba(20,35,28,0.55); white-space:nowrap; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 920px) {
+  .botd { grid-template-columns: 1fr; text-align:center; }
+  .botd-cover { max-width: 220px; margin: 0 auto; }
+  .botd-meta, .botd-actions { justify-content:center; }
+  .jam-stage { padding: 30px 18px 20px; }
+  .jam-nav { width:36px; height:36px; }
+  .jam-nav.prev { left: 2px; } .jam-nav.next { right: 2px; }
+}
+@media (max-width: 640px) {
+  .hero-mini-books { gap: 10px; }
+  .mini-cover-link { width: 54px; }
+  .phys-book { width: 120px; }
+  .jam-track { width: 150px; height: 210px; }
+  .jam-spine { width: 118px; height: 168px; }
+  #shelves-wrap { gap: 40px; }
+}

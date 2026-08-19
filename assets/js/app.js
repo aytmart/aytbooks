@@ -48,11 +48,15 @@ function mix(hexA, hexB, amt) {
 
 function coverHTML(book, opts = {}) {
   const badge = opts.badge !== false ? `<span class="cv-badge">ফ্রি পড়ুন</span>` : "";
+  // view-transition-name gives a smooth "picked off the shelf" morph into
+  // book.html on browsers that support the View Transitions API, and is a
+  // silent no-op everywhere else — see @view-transition rule in style.css.
+  const vt = `view-transition-name:cover-${(book.id || "").replace(/[^a-zA-Z0-9_-]/g, "")};`;
   if (book.cover) {
-    return `<div class="book-cover" style="background:url('${book.cover}') center/cover;">${badge}</div>`;
+    return `<div class="book-cover" style="background:url('${book.cover}') center/cover;${vt}">${badge}</div>`;
   }
   return `
-    <div class="book-cover" style="background:${coverGradient(book)}">
+    <div class="book-cover" style="background:${coverGradient(book)};${vt}">
       ${badge}
       <div>
         <div class="cv-title">${book.title}</div>

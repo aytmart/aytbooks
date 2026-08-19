@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AYT Books — বাংলা বই অনলাইনে পড়ুন ও অর্ডার করুন</title>
+<title>AYT Books — বাংলা বইয়ের ডিজিটাল লাইব্রেরি | ফ্রি পড়ুন, WhatsApp এ অর্ডার করুন</title>
 <meta name="description" content="AYT Books — অনলাইনে বিনামূল্যে বই পড়ুন এবং WhatsApp এ অর্ডার করে কিনুন। ইসলামিক বই, উপন্যাস, বিজ্ঞান, কবিতাসহ বিভিন্ন ক্যাটাগরির বই।">
 <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/library.css">
 </head>
 <body>
 
@@ -42,15 +43,20 @@
   </nav>
 </header>
 
-<section class="hero">
+<!-- ============ HERO — "লাইব্রেরিতে প্রবেশ করুন" ============ -->
+<section class="hero islamic-pattern">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow">বাংলা বইয়ের অনলাইন লাইব্রেরি ও বুকশপ</span>
-      <h1>প্রতিটি পাতায় <em>জ্ঞানের</em> খোঁজ,<br>প্রতিটি বইয়ে নতুন গল্প</h1>
-      <p class="lead">একটি ভালো বই থামিয়ে দেয়, ভাবায়, বদলে দেয় দেখার চোখ। AYT Books-এর পাতায় পাতায় লুকিয়ে আছে এমন কিছু গল্প ও উপলব্ধি, যা একবার পড়া শুরু করলে আর রেখে উঠতে ইচ্ছে করবে না।</p>
+      <span class="eyebrow">বাংলা বইয়ের ডিজিটাল লাইব্রেরি</span>
+      <h1>জ্ঞানের পথে, <em>একটি বই</em> দিয়ে শুরু হোক</h1>
+      <p class="lead">আপনার সময়, চিন্তা ও জীবনের জন্য নির্বাচিত বইয়ের একটি সুন্দর সংগ্রহ। কেনার আগেই সম্পূর্ণ ফ্রিতে অনলাইনে পড়ে দেখুন — কোনো খরচ নেই।</p>
       <div class="hero-actions">
-        <a class="btn btn-gold" href="books.html">📚 সব বই দেখুন</a>
-        <a class="btn btn-outline" href="https://wa.me/8801786840952?text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20AYT%20Books%20%E0%A6%A5%E0%A7%87%E0%A6%95%E0%A7%87%20%E0%A6%AC%E0%A6%87%20%E0%A6%85%E0%A6%B0%E0%A6%A1%E0%A6%BE%E0%A6%B0%20%E0%A6%95%E0%A6%B0%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87%E0%A5%A4" target="_blank" rel="noopener">💬 WhatsApp এ অর্ডার</a>
+        <a class="btn btn-gold" href="#shelves">📚 লাইব্রেরিতে প্রবেশ করুন</a>
+        <a class="btn btn-outline" href="books.html" id="lib-search-trigger">🔍 বই খুঁজুন</a>
+      </div>
+      <div class="hero-mini-shelf">
+        <span class="hero-mini-label">এই মুহূর্তে পাঠকদের হাতে</span>
+        <div class="hero-mini-books" id="hero-mini-books"></div>
       </div>
       <div class="hero-stats" id="hero-stats">
         <div><strong id="stat-books">0</strong><span>টি বই</span></div>
@@ -72,33 +78,78 @@
   </div>
 </section>
 
+<!-- ============ EXPLORE THE SHELVES ============ -->
+<section id="shelves">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">তাক ঘুরে দেখুন</span>
+        <h2>আপনি কোন তাক থেকে শুরু করবেন?</h2>
+        <p class="section-sub">প্রতিটি তাকে সাজানো আছে একটি নির্দিষ্ট বিষয়ের বই — ছুঁয়ে দেখুন, পছন্দ হলে তুলে নিন।</p>
+      </div>
+    </div>
+    <div id="shelves-wrap"></div>
+  </div>
+</section>
+
+<!-- ============ JAMMED SHELF — reveal the hidden ones ============ -->
+<section class="bg-forest jam-section" id="jamShelfSection">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">ঠাসা তাক</span>
+        <h2>বইগুলো একটার গায়ে আরেকটা চাপা পড়ে আছে</h2>
+        <p class="section-sub jam-intro">সামনের বইটা টেনে সরান অথবা ক্লিক করুন — পেছনে চাপা পড়া বইগুলো একে একে বের হয়ে আসবে। যেটা পছন্দ হয়, ক্লিক করে পড়া শুরু করুন।</p>
+      </div>
+    </div>
+    <div class="jam-stage">
+      <button type="button" class="jam-nav prev" id="jamPrev" aria-label="আগের বই">‹</button>
+      <div class="jam-track" id="jamTrack"></div>
+      <button type="button" class="jam-nav next" id="jamNext" aria-label="পরের বই">›</button>
+      <div class="jam-shelf-plank"></div>
+    </div>
+    <div class="jam-dots" id="jamDots"></div>
+    <p class="jam-hint">👆 বইয়ের যেকোনো কোণায় ক্লিক করুন অথবা সামনের বইটি বাম দিকে টেনে সরান</p>
+  </div>
+</section>
+
+<!-- ============ BOOK OF THE DAY ============ -->
+<section class="bg-alt" id="botdSection">
+  <div class="wrap">
+    <div class="botd" id="botd"></div>
+  </div>
+</section>
+
+<!-- ============ CURATED COLLECTIONS ============ -->
+<section id="collectionsSection">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">বিষয় নয়, একটি পাঠযাত্রা</span>
+        <h2>মন যা খুঁজছে, সেই পথ ধরে পড়ুন</h2>
+      </div>
+    </div>
+    <div class="collections-grid" id="collections-wrap"></div>
+    <div id="collection-preview"></div>
+  </div>
+</section>
+
+<!-- ============ POPULAR WITH READERS ============ -->
 <section class="bg-alt">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <span class="eyebrow">সম্পাদকের নির্বাচন</span>
-        <h2>বিশেষ বই সংগ্রহ</h2>
-        <p class="section-sub">সম্পাদকের পছন্দে বেছে নেওয়া কিছু বই — এখনই পড়ুন অথবা অর্ডার করুন।</p>
+        <span class="eyebrow">সংগ্রহ থেকে</span>
+        <h2>পাঠকদের সবচেয়ে পছন্দ</h2>
+        <p class="section-sub">লাইব্রেরির আবেগের পর — এবার সরাসরি বেছে নিন, পড়ুন অথবা অর্ডার করুন।</p>
       </div>
       <a class="btn btn-forest btn-sm" href="books.html">সব বই →</a>
     </div>
-    <div class="book-grid" id="featured-grid"></div>
+    <div class="book-grid" id="popular-grid"></div>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow">ক্যাটাগরি অনুযায়ী খুঁজুন</span>
-        <h2>যে বিষয়ে আগ্রহ, সেই তাক থেকে শুরু করুন</h2>
-      </div>
-      <a class="btn btn-forest btn-sm" href="books.html">সব ক্যাটাগরি →</a>
-    </div>
-    <div class="cat-grid" id="cat-grid"></div>
-  </div>
-</section>
-
+<!-- ============ HOW IT WORKS ============ -->
 <section class="bg-forest">
   <div class="wrap">
     <div class="section-head">
@@ -110,7 +161,7 @@
     <div class="steps">
       <div class="step">
         <h3>বই খুঁজুন</h3>
-        <p>ক্যাটাগরি অথবা সার্চ ব্যবহার করে পছন্দের বই খুঁজে বের করুন।</p>
+        <p>তাক ঘুরে অথবা সার্চ ব্যবহার করে পছন্দের বই খুঁজে বের করুন।</p>
       </div>
       <div class="step">
         <h3>ফ্রি অনলাইনে পড়ুন</h3>
@@ -124,6 +175,7 @@
   </div>
 </section>
 
+<!-- ============ WHY US ============ -->
 <section>
   <div class="wrap">
     <div class="section-head">
@@ -157,6 +209,7 @@
   </div>
 </section>
 
+<!-- ============ FINAL CTA ============ -->
 <section class="bg-alt">
   <div class="wrap" style="text-align:center;">
     <span class="eyebrow" style="justify-content:center;">আজই শুরু করুন</span>
@@ -166,6 +219,15 @@
       <a class="btn btn-gold" href="books.html">📚 লাইব্রেরি ব্রাউজ করুন</a>
       <a class="btn btn-whatsapp" href="https://wa.me/8801786840952" target="_blank" rel="noopener">💬 সরাসরি WhatsApp</a>
     </div>
+  </div>
+</section>
+
+<!-- ============ BRAND STATEMENT ============ -->
+<section class="bg-forest brand-statement islamic-pattern">
+  <div class="wrap">
+    <div class="bs-mark">AYT BOOKS</div>
+    <h2>জ্ঞানের পথে একটি ছোট্ট উদ্যোগ</h2>
+    <p>ভালো বই শুধু তথ্য দেয় না — চিন্তার দিকও বদলে দিতে পারে।</p>
   </div>
 </section>
 
@@ -208,20 +270,27 @@
 
 <a class="wa-float" href="https://wa.me/8801786840952" target="_blank" rel="noopener" aria-label="WhatsApp এ যোগাযোগ করুন">💬</a>
 
+<!-- ============ SMART SEARCH OVERLAY ============ -->
+<div class="search-overlay" id="search-overlay">
+  <div class="so-panel">
+    <div class="so-head">
+      <input type="text" id="search-overlay-input" placeholder="আপনি কী পড়তে চান?" autocomplete="off">
+      <button type="button" class="so-close" id="search-overlay-close" aria-label="বন্ধ করুন">✕</button>
+    </div>
+    <div class="so-chips" id="search-overlay-chips"></div>
+    <div class="so-results" id="search-overlay-results"></div>
+  </div>
+</div>
+
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/library.js"></script>
 <script>
-  document.getElementById("cat-grid").innerHTML = CATEGORIES.map(categoryCardHTML).join("");
   document.getElementById("footer-cats").innerHTML = CATEGORIES.slice(0,5).map(
     c => `<li><a href="books.html?cat=${c.id}">${c.label}</a></li>`
   ).join("");
-
-  const featured = BOOKS.filter(b => b.featured).length ? BOOKS.filter(b => b.featured) : BOOKS.slice(0,8);
-  document.getElementById("featured-grid").innerHTML = featured.slice(0,8).map(bookCardHTML).join("") ||
-    `<p class="empty-state">এখনো কোনো বই যোগ করা হয়নি।</p>`;
-
   document.getElementById("stat-books").textContent = BOOKS.length;
-  document.getElementById("stat-cats").textContent = CATEGORIES.length;
+  document.getElementById("stat-cats").textContent = CATEGORIES.filter(c => bookCountFor(c.id) > 0).length;
 </script>
 </body>
 </html>
