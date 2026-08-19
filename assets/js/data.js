@@ -39,17 +39,24 @@ const CATEGORIES = [
   },
   {
     id: "self-help",
-    label: "সেল্ফ হেল্প",
-    labelEn: "Self Help",
-    icon: "🌱",
-    desc: "আত্ম-উন্নয়ন ও অনুপ্রেরণামূলক বই"
+    label: "শিক্ষামূলক বই",
+    labelEn: "Educational / Self Help",
+    icon: "🎓",
+    desc: "আত্ম-উন্নয়ন, দক্ষতা ও শিক্ষামূলক বই"
   },
   {
     id: "kids",
-    label: "শিশুতোষ",
+    label: "শিশু-কিশোর বই",
     labelEn: "Kids",
-    icon: "🧸",
+    icon: "🧒",
     desc: "শিশু-কিশোরদের জন্য গল্প ও শিক্ষামূলক বই"
+  },
+  {
+    id: "life",
+    label: "জীবন ঘনিষ্ঠ বই",
+    labelEn: "Life",
+    icon: "💗",
+    desc: "পারিবারিক জীবন, মানসিক প্রশান্তি ও জীবনধারা বিষয়ক বই"
   },
   {
     id: "history",

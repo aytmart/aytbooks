@@ -9,251 +9,94 @@
 /* ---------- small extra render helper (physical book on a wood shelf) ---------- */
 function physBookHTML(book, i) {
   const tilt = (i % 2 === 0 ? -1 : 1) * (1 + (i % 3));
+  const href = book.comingSoon
+    ? `books.html?cat=${encodeURIComponent(book.category)}`
+    : `book.html?id=${encodeURIComponent(book.id)}`;
+  const priceLine = book.comingSoon
+    ? `<b>শীঘ্রই যুক্ত হবে</b>`
+    : `<b>${book.currency || "৳"}${book.price}</b>`;
+  const ctaLine = book.comingSoon ? "ক্যাটাগরি দেখুন" : "বইটি দেখুন";
   return `
-  <a class="phys-book" href="book.html?id=${encodeURIComponent(book.id)}" style="--tilt:${tilt}deg" aria-label="${book.title}">
-    ${coverHTML(book, { badge: false })}
+  <a class="phys-book${book.comingSoon ? " coming-soon" : ""}" href="${href}" style="--tilt:${tilt}deg" aria-label="${book.title}">
+    ${coverHTML(book, { badge: true })}
     <span class="phys-micro">
       <strong>${book.title}</strong>
       <em>${book.author || ""}</em>
-      <b>${book.currency || "৳"}${book.price}</b>
-      <span class="phys-cta">বইটি দেখুন</span>
+      ${priceLine}
+      <span class="phys-cta">${ctaLine}</span>
     </span>
   </a>`;
 }
 
-function miniCoverHTML(book) {
-  return `
-  <a class="mini-cover-link" href="book.html?id=${encodeURIComponent(book.id)}" aria-label="${book.title}">
-    ${coverHTML(book, { badge: false })}
-  </a>`;
+/* ---------- 1. Home page shelves — fixed 4-category grid (islamic / kids / educational / life) ----------
+   Real books (from BOOKS) fill each shelf first; if a category doesn't yet have
+   6 books, clearly-marked "শীঘ্রই" (coming soon) placeholder covers top up the
+   row so the shelf still reads as full — swap these out as real titles are added. */
+const HOME_SHELF_CATS = ["islamic", "kids", "self-help", "life"];
+const HOME_SHELF_PILL = {
+  islamic: "pill-forest",
+  kids: "pill-brick",
+  "self-help": "pill-gold",
+  life: "pill-rose"
+};
+const HOME_SHELF_PLACEHOLDER_TONES = {
+  islamic: { coverColor: "#0f3d3e", coverAccent: "#c9a227" },
+  kids: { coverColor: "#a8462f", coverAccent: "#e0c268" },
+  "self-help": { coverColor: "#163832", coverAccent: "#c9a227" },
+  life: { coverColor: "#5b2f43", coverAccent: "#e0c268" }
+};
+const SHELF_SIZE = 6;
+
+function makePlaceholderBooks(catId, count) {
+  const tone = HOME_SHELF_PLACEHOLDER_TONES[catId] || { coverColor: "#0f3d3e", coverAccent: "#c9a227" };
+  return Array.from({ length: count }, (_, i) => ({
+    id: `placeholder-${catId}-${i}`,
+    title: "শীঘ্রই আসছে",
+    author: "AYT Books",
+    category: catId,
+    price: 0,
+    coverColor: tone.coverColor,
+    coverAccent: tone.coverAccent,
+    comingSoon: true
+  }));
 }
 
-/* ---------- 1. Category shelves (real data only — skips empty categories) ---------- */
 function renderShelves() {
   const wrap = document.getElementById("shelves-wrap");
   if (!wrap) return;
-  const populated = CATEGORIES.filter((c) => bookCountFor(c.id) > 0);
 
-  if (!populated.length) {
-    wrap.innerHTML = `<p class="empty-state">শীঘ্রই নতুন তাক যুক্ত হবে।</p>`;
-    return;
-  }
+  wrap.innerHTML = HOME_SHELF_CATS.map((catId) => {
+    const cat = getCategory(catId);
+    if (!cat) return "";
+    const real = BOOKS.filter((b) => b.category === catId).slice(0, SHELF_SIZE);
+    const shelfBooks = real.length < SHELF_SIZE
+      ? [...real, ...makePlaceholderBooks(catId, SHELF_SIZE - real.length)]
+      : real;
+    const pillCls = HOME_SHELF_PILL[catId] || "pill-forest";
 
-  wrap.innerHTML = populated.map((cat) => {
-    const books = BOOKS.filter((b) => b.category === cat.id);
     return `
     <div class="shelf-block">
-      <div class="shelf-head">
-        <div>
-          <h3><span class="shelf-badge">${cat.icon}</span>${cat.label}</h3>
-          <p>${cat.desc}</p>
-        </div>
-        <a class="shelf-link" href="books.html?cat=${encodeURIComponent(cat.id)}">সব বই দেখুন →</a>
+      <div class="shelf-pill-row">
+        <span class="shelf-pill ${pillCls}"><span class="shelf-badge">${cat.icon}</span>${cat.label}</span>
       </div>
       <div class="wood-shelf">
-        <div class="shelf-books">${books.map((b, i) => physBookHTML(b, i)).join("")}</div>
+        <div class="shelf-books">${shelfBooks.map((b, i) => physBookHTML(b, i)).join("")}</div>
+        <button type="button" class="shelf-next" data-shelf="${catId}" aria-label="আরও বই দেখুন">›</button>
         <div class="shelf-plank"></div>
       </div>
+      <a class="shelf-link" href="books.html?cat=${encodeURIComponent(catId)}">সব দেখুন →</a>
     </div>`;
   }).join("");
-}
 
-/* ---------- 2. Jammed shelf — packed books you shove aside to reveal hidden ones ---------- */
-let jamOrder = [];
-let jamPool = [];
-
-function jamPos(idx) { return jamOrder.indexOf(idx); }
-
-function jamLayout() {
-  const track = document.getElementById("jamTrack");
-  if (!track) return;
-  const offset = window.innerWidth < 640 ? 20 : 32;
-  jamPool.forEach((b, i) => {
-    const el = track.querySelector(`.jam-spine[data-idx="${i}"]`);
-    if (!el) return;
-    const pos = jamPos(i);
-    el.style.zIndex = jamPool.length - pos;
-    el.style.transform = `translateX(${pos * offset}px) translateY(${pos * 2}px) rotate(${pos * 1.1}deg) scale(${1 - pos * 0.015})`;
-    el.style.filter = `brightness(${Math.max(0.7, 1 - pos * 0.045)})`;
-    el.classList.toggle("is-front", pos === 0);
-  });
-  const dots = document.getElementById("jamDots");
-  if (dots) {
-    dots.innerHTML = jamPool.map((_, i) =>
-      `<span class="jam-dot ${jamPos(i) === 0 ? "active" : ""}"></span>`
-    ).join("");
-  }
-}
-
-function jamBringToFront(idx) {
-  jamOrder = [idx, ...jamOrder.filter((v) => v !== idx)];
-  jamLayout();
-}
-function jamSendToBack(idx) {
-  jamOrder = [...jamOrder.filter((v) => v !== idx), idx];
-  jamLayout();
-}
-function jamCycle(dir) {
-  if (dir === 1) {
-    const idx = jamOrder[jamOrder.length - 1];
-    jamOrder = [idx, ...jamOrder.slice(0, -1)];
-  } else {
-    const idx = jamOrder[0];
-    jamOrder = [...jamOrder.slice(1), idx];
-  }
-  jamLayout();
-}
-
-function attachJamDrag(el, idx) {
-  let startX = 0;
-  let dragging = false;
-
-  el.addEventListener("pointerdown", (e) => {
-    if (jamPos(idx) !== 0) return;
-    dragging = true;
-    startX = e.clientX;
-    el.setPointerCapture(e.pointerId);
-    el.classList.add("is-dragging");
-  });
-  el.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    const dx = Math.min(0, e.clientX - startX);
-    el.style.transform = `translateX(${dx}px) rotate(${dx * 0.05}deg)`;
-  });
-  const finish = (e) => {
-    if (!dragging) return;
-    dragging = false;
-    el.classList.remove("is-dragging");
-    const dx = e.clientX - startX;
-    el._justDragged = true;
-    setTimeout(() => { el._justDragged = false; }, 60);
-    if (dx < -50) jamSendToBack(idx); else jamLayout();
-  };
-  el.addEventListener("pointerup", finish);
-  el.addEventListener("pointerleave", (e) => { if (dragging) finish(e); });
-}
-
-function renderJamShelf() {
-  const section = document.getElementById("jamShelfSection");
-  const track = document.getElementById("jamTrack");
-  if (!section || !track) return;
-  if (!BOOKS.length) { section.style.display = "none"; return; }
-
-  jamPool = BOOKS.slice(0, Math.min(8, BOOKS.length));
-  jamOrder = jamPool.map((_, i) => i);
-
-  track.innerHTML = jamPool.map((b, i) => `
-    <button type="button" class="jam-spine" data-idx="${i}" aria-label="${b.title}">
-      ${coverHTML(b, { badge: false })}
-    </button>`).join("");
-
-  track.querySelectorAll(".jam-spine").forEach((el) => {
-    const idx = Number(el.dataset.idx);
-    el.addEventListener("click", () => {
-      if (el._justDragged) return;
-      if (jamPos(idx) === 0) {
-        location.href = `book.html?id=${encodeURIComponent(jamPool[idx].id)}`;
-      } else {
-        jamBringToFront(idx);
-      }
+  wrap.querySelectorAll(".shelf-next").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const row = btn.closest(".wood-shelf")?.querySelector(".shelf-books");
+      if (row) row.scrollBy({ left: 280, behavior: "smooth" });
     });
-    attachJamDrag(el, idx);
-  });
-
-  document.getElementById("jamPrev")?.addEventListener("click", () => jamCycle(1));
-  document.getElementById("jamNext")?.addEventListener("click", () => jamCycle(-1));
-
-  jamLayout();
-  window.addEventListener("resize", jamLayout);
-}
-
-/* ---------- 3. Book of the Day — deterministic daily pick, real data only ---------- */
-function renderBookOfDay() {
-  const el = document.getElementById("botd");
-  const section = document.getElementById("botdSection");
-  if (!el) return;
-  if (!BOOKS.length) { if (section) section.style.display = "none"; return; }
-
-  const dayIndex = Math.floor(Date.now() / 86400000) % BOOKS.length;
-  const book = BOOKS[dayIndex];
-  const cat = getCategory(book.category);
-  const desc = book.description || "";
-  const shortDesc = desc.length > 230 ? desc.slice(0, 230) + "…" : desc;
-
-  el.innerHTML = `
-    <div class="botd-cover">${coverHTML(book, { badge: false })}</div>
-    <div class="botd-info">
-      <span class="eyebrow">আজকের বই</span>
-      <h2>${book.title}</h2>
-      ${book.titleEn ? `<p class="botd-sub">${book.titleEn}</p>` : ""}
-      <div class="botd-meta">
-        <span>${book.author || ""}</span>
-        ${cat ? `<span>•</span><span>${cat.label}</span>` : ""}
-      </div>
-      <p class="botd-desc">${shortDesc}</p>
-      <div class="botd-price">${book.currency || "৳"}${book.price}</div>
-      <div class="botd-actions">
-        <a class="btn btn-gold" href="book.html?id=${encodeURIComponent(book.id)}">বইটি আবিষ্কার করুন</a>
-        <a class="btn btn-whatsapp" href="${waLink(book)}" target="_blank" rel="noopener">অর্ডার করুন</a>
-      </div>
-    </div>`;
-}
-
-/* ---------- 4. Curated collections — built from real tag frequency in BOOKS ---------- */
-function renderCollections() {
-  const wrap = document.getElementById("collections-wrap");
-  const section = document.getElementById("collectionsSection");
-  if (!wrap) return;
-
-  const freq = {};
-  BOOKS.forEach((b) => (b.tags || []).forEach((t) => { freq[t] = (freq[t] || 0) + 1; }));
-  const tags = Object.entries(freq).filter(([, c]) => c >= 2).sort((a, b) => b[1] - a[1]).slice(0, 4);
-
-  if (!tags.length) { if (section) section.style.display = "none"; return; }
-
-  wrap.innerHTML = tags.map(([tag, count]) => `
-    <button type="button" class="collection-card" data-tag="${tag}">
-      <span class="collection-count">${count} টি বই</span>
-      <h3>${tag}</h3>
-      <span class="collection-cta">পাঠযাত্রা শুরু করুন</span>
-    </button>`).join("");
-
-  wrap.querySelectorAll(".collection-card").forEach((btn) => {
-    btn.addEventListener("click", () => showCollectionPreview(btn.dataset.tag));
   });
 }
 
-function showCollectionPreview(tag) {
-  const preview = document.getElementById("collection-preview");
-  if (!preview) return;
-  const list = BOOKS.filter((b) => (b.tags || []).includes(tag));
-  preview.innerHTML = `
-    <div class="section-head">
-      <div><span class="eyebrow">পাঠযাত্রা</span><h3 style="margin-top:6px;">${tag}</h3></div>
-      <a class="btn btn-forest btn-sm" href="books.html?q=${encodeURIComponent(tag)}">সব ফলাফল দেখুন →</a>
-    </div>
-    <div class="book-grid">${list.map(bookCardHTML).join("")}</div>`;
-  preview.style.display = "block";
-  preview.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-/* ---------- 5. Popular / full catalog grid ---------- */
-function renderPopularGrid() {
-  const grid = document.getElementById("popular-grid");
-  if (!grid) return;
-  grid.innerHTML = BOOKS.length
-    ? BOOKS.map(bookCardHTML).join("")
-    : `<p class="empty-state">এখনো কোনো বই যোগ করা হয়নি।</p>`;
-}
-
-/* ---------- 6. Hero mini shelf ---------- */
-function renderHeroMiniShelf() {
-  const el = document.getElementById("hero-mini-books");
-  if (!el) return;
-  el.innerHTML = BOOKS.slice(0, 4).map(miniCoverHTML).join("");
-}
-
-/* ---------- 7. Smart search overlay ---------- */
+/* ---------- 2. Smart search overlay ---------- */
 function initSearchOverlay() {
   const openBtn = document.getElementById("lib-search-trigger");
   const overlay = document.getElementById("search-overlay");
@@ -319,11 +162,6 @@ function initSearchOverlay() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderHeroMiniShelf();
   renderShelves();
-  renderJamShelf();
-  renderBookOfDay();
-  renderCollections();
-  renderPopularGrid();
   initSearchOverlay();
 });
