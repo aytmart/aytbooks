@@ -1,0 +1,6 @@
+{
+  "name": "AYT Books - বাংলা বইয়ের ডিজিটাল লাইব্রেরি",
+  "description": "AYT Books — বিষয়ভিত্তিক বইয়ের তাক, ইসলামিক ও শিক্ষামূলক বইয়ের ডিজিটাল লাইব্রেরি, অনলাইন বুক রিডার ও সহজে WhatsApp অর্ডার।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
