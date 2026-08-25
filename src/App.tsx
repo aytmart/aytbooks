@@ -38,7 +38,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(null);
   const [searchWaypoint, setSearchWaypoint] = useState<{ x: number; z: number; title: string } | null>(null);
-  const [is2DView, setIs2DView] = useState(true);
+  const [is2DView, setIs2DView] = useState(false);
   const [isSensorEnabled, setIsSensorEnabled] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
 
