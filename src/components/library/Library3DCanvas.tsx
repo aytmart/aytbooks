@@ -657,7 +657,6 @@ try {
   console.error('AYT Books 3D WebGL initialization failed:', error);
   return;
 }
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3));
     renderer.shadowMap.enabled = !reducedMotion;
