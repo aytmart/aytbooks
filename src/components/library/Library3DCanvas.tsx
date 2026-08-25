@@ -643,6 +643,20 @@ export const Library3DCanvas: React.FC<Library3DCanvasProps> = ({
     const camera = new THREE.PerspectiveCamera(initialSettings.fov, width / height, 0.1, 100);
     camera.position.set(0, initialSettings.lookAtY + 0.25, initialSettings.distance);
 
+    if (!containerRef.current) return;
+
+let renderer: THREE.WebGLRenderer;
+
+try {
+  renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: false,
+    powerPreference: 'high-performance',
+  });
+} catch (error) {
+  console.error('AYT Books 3D WebGL initialization failed:', error);
+  return;
+}
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3));
