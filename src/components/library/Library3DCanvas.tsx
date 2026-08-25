@@ -683,7 +683,7 @@ try {
     // 3. Polished Marble & Granite Tile Floor
     const floorGeo = new THREE.CircleGeometry(8.5, 48);
     const floorMat = new THREE.MeshStandardMaterial({
-      map: createMarbleGraniteFloorTexture(),
+      map: createHardwoodParquetFloorTexture(),
       roughness: 0.16,
       metalness: 0.18,
     });
@@ -697,7 +697,7 @@ try {
     const wallHeight = 4.8;
     const wallGeo = new THREE.CylinderGeometry(wallRadius, wallRadius, wallHeight, 48, 1, true);
     const wallMat = new THREE.MeshStandardMaterial({
-      map: createWallTexture(),
+      map: createRichMahoganyWallTexture(),
       side: THREE.BackSide,
       roughness: 0.65,
     });
@@ -1378,10 +1378,10 @@ try {
     books,
     createAshMatTexture,
     createCategoryCoverTexture,
-    createMarbleGraniteFloorTexture,
+    createHardwoodParquetFloorTexture,
     createSpineTexture,
     createTitlePlaqueTexture,
-    createWallTexture,
+    createRichMahoganyWallTexture,
     fontsReady,
     getResponsiveCameraSettings,
     hoveredBook,
