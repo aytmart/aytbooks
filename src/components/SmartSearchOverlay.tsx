@@ -68,7 +68,8 @@ export const SmartSearchOverlay: React.FC<SmartSearchOverlayProps> = ({
           />
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-[#F2EFE9] text-[#5C5852] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full bg-[#F2EFE9] hover:bg-[#1A1A1A] text-[#1A1A1A] hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+            aria-label="Close search"
           >
             <X className="w-5 h-5" />
           </button>

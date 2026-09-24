@@ -41,17 +41,19 @@ export const PregnancyRoutineModal: React.FC<PregnancyRoutineModalProps> = ({ on
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handlePrint}
-              className="p-2 rounded-md bg-[#262626] border border-[#3D3D3D] hover:bg-[#333] text-white transition-colors cursor-pointer"
+              className="p-2 rounded-lg bg-[#262626] border border-[#3D3D3D] hover:bg-[#333] text-white transition-colors cursor-pointer"
               title="প্রিন্ট চার্ট"
             >
               <Printer className="w-4 h-4" />
             </button>
             <button
               onClick={onClose}
-              className="p-2 rounded-full hover:bg-white/10 text-white transition-colors cursor-pointer"
+              className="p-2 sm:p-2.5 rounded-xl bg-white/10 hover:bg-red-600 text-white transition-colors cursor-pointer shadow-md"
+              title="বন্ধ করুন"
+              aria-label="Close modal"
             >
               <X className="w-5 h-5" />
             </button>

@@ -1,20 +1,20 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# AYT Books — বাংলা বইয়ের ডিজিটাল লাইব্রেরি
 
-# Run and deploy your AI Studio app
+জ্ঞানের পথে একটি ছোট্ট উদ্যোগ। React + Vite + Tailwind দিয়ে তৈরি স্ট্যাটিক ওয়েবসাইট।
 
-This contains everything you need to run your app locally.
+## GitHub Pages-এ Publish করার নিয়ম
 
-View your app in AI Studio: https://ai.studio/apps/6c60d195-fa4e-47f1-ac05-900f39f5ec5b
+1. GitHub-এ নতুন repository বানান (যেমন `ayt-books`)।
+2. এই ফোল্ডারের সব ফাইল `main` branch-এ push করুন।
+3. GitHub-এ repo খুলে **Settings → Pages → Source** এ গিয়ে **GitHub Actions** সিলেক্ট করুন।
+4. এরপর থেকে `main` branch-এ যতবার push করবেন, সাইট নিজে নিজেই আপডেট হবে।
+5. সাইটের লিংক: `https://<আপনার-username>.github.io/<repo-নাম>/`
 
-## Run Locally
+## নিজের কম্পিউটারে চালাতে
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+npm run dev      # ডেভেলপমেন্ট: http://localhost:3000
+npm run build    # ফাইনাল বিল্ড (dist ফোল্ডারে)
+npm run preview  # বিল্ড করা সাইট দেখুন
+```

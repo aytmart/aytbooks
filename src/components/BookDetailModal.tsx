@@ -45,27 +45,42 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
         className="relative bg-[#FDFCFB] border border-[#E5E1DB] rounded-2xl sm:rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl my-auto text-[#1A1A1A]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Close Button */}
+        {/* Modal Close Button - Fixed high z-index and safe touch targets for mobile & desktop */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-[#F2EFE9] hover:bg-[#1A1A1A] text-[#1A1A1A] hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-50 w-10 h-10 rounded-full bg-[#1A1A1A] sm:bg-[#F2EFE9] sm:hover:bg-[#1A1A1A] text-white sm:text-[#1A1A1A] sm:hover:text-white flex items-center justify-center transition-transform hover:scale-105 active:scale-95 shadow-lg border border-white/20 sm:border-[#E5E1DB] cursor-pointer"
           aria-label="Close"
           id="close-book-detail-btn"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[85vh] overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[88vh] overflow-y-auto">
           {/* Left Column: Book Cover & Quick Meta */}
-          <div className="md:col-span-5 bg-[#F9F7F4] p-6 flex flex-col items-center justify-between border-b md:border-b-0 md:border-r border-[#E5E1DB] text-center">
-            {/* 3D Visual Book Cover */}
+          <div className="md:col-span-5 bg-[#F9F7F4] p-5 sm:p-6 flex flex-col items-center justify-between border-b md:border-b-0 md:border-r border-[#E5E1DB] text-center">
+            {/* 3D Visual Book Cover - CLICKABLE to enter reading mode */}
             <div
-              className="w-44 sm:w-48 aspect-[1/1.44] rounded-r-md rounded-l-xs overflow-hidden flex flex-col justify-between p-4 text-white book-shadow-editorial book-spine-effect relative border-y border-r border-white/25 shadow-xl transform hover:scale-102 transition-transform my-4"
+              onClick={() => {
+                onClose();
+                onRead(book);
+              }}
+              title="বইয়ের উপর ক্লিক করে সরাসরি পড়া শুরু করুন"
+              className="w-44 sm:w-48 aspect-[1/1.44] rounded-r-md rounded-l-xs overflow-hidden flex flex-col justify-between p-4 text-white book-shadow-editorial book-spine-effect relative border-y border-r border-white/25 shadow-xl transform hover:scale-105 active:scale-98 transition-all my-3 sm:my-4 cursor-pointer group"
               style={{
                 backgroundColor: book.coverColor,
                 backgroundImage: `linear-gradient(135deg, ${book.coverColor} 0%, rgba(0,0,0,0.4) 100%), radial-gradient(circle at top right, ${book.coverAccent}44, transparent 70%)`
               }}
             >
+              {/* Click to read hint badge overlay on cover hover */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 backdrop-blur-[2px]">
+                <div className="w-10 h-10 rounded-full bg-[#E0C268] text-[#1A1A1A] flex items-center justify-center shadow-lg">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-bold text-white tracking-wide bg-black/60 px-2.5 py-1 rounded-full">
+                  ক্লিক করে পড়ুন
+                </span>
+              </div>
+
               <div className="border-t border-b border-[#C9A227]/40 py-1">
                 <span className="text-[9px] tracking-widest text-[#E0C268] uppercase font-sans font-bold">
                   AYT DIGITAL ARCHIVE
@@ -84,9 +99,18 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
 
               <div className="flex items-center justify-between text-[10px] text-[#E0C268] border-t border-[#C9A227]/30 pt-1.5 font-mono">
                 <span className="font-bold">{book.currency}{book.price}</span>
-                <span className="text-[9px] bg-white/20 px-1.5 py-0.5 rounded text-white font-medium">ফ্রি পড়ুন</span>
+                <span className="text-[9px] bg-emerald-600/90 px-1.5 py-0.5 rounded text-white font-bold flex items-center gap-1">
+                  <BookOpen className="w-2.5 h-2.5" /> ফ্রি পড়ুন
+                </span>
               </div>
             </div>
+
+            <p className="text-[11px] text-[#8C8882] -mt-1 mb-2 font-serif flex items-center gap-1">
+              <span>👆</span>
+              <span className="underline decoration-dotted cursor-pointer" onClick={() => { onClose(); onRead(book); }}>
+                বইয়ের ছবির উপর ক্লিক করলেই পড়া শুরু হবে
+              </span>
+            </p>
 
             {/* Quick Meta Checklist */}
             <div className="w-full space-y-1.5 text-xs text-[#5C5852] pt-2 border-t border-[#E5E1DB] text-left">

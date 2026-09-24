@@ -192,7 +192,8 @@ export default function App() {
                 </h3>
                 <button
                   onClick={() => setIsSavedOpen(false)}
-                  className="p-1.5 rounded-full hover:bg-[#F2EFE9] text-[#1A1A1A] transition-colors cursor-pointer"
+                  className="w-9 h-9 rounded-full bg-[#F2EFE9] hover:bg-[#1A1A1A] text-[#1A1A1A] hover:text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+                  aria-label="Close saved drawer"
                 >
                   <X className="w-5 h-5" />
                 </button>

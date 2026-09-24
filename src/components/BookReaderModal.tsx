@@ -636,25 +636,25 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-black/90 text-white backdrop-blur-md animate-in fade-in duration-200">
       {/* Top Sticky Reader Toolbar */}
-      <header className="h-14 px-3 sm:px-6 bg-[#1A1A1A] border-b border-white/10 flex items-center justify-between z-30 shrink-0 select-none">
+      <header className="h-14 sm:h-16 px-2 sm:px-6 bg-[#1A1A1A] border-b border-white/10 flex items-center justify-between z-30 shrink-0 select-none">
         {/* Left: Book Info & Mode Switcher */}
-        <div className="flex items-center gap-2 sm:gap-4 overflow-hidden">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#0F3D3E] flex items-center justify-center text-[#E0C268] text-sm shrink-0 border border-white/10">
+        <div className="flex items-center gap-1.5 sm:gap-4 overflow-hidden min-w-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0F3D3E] flex items-center justify-center text-[#E0C268] text-xs sm:text-sm shrink-0 border border-white/10">
               📖
             </div>
-            <div className="truncate max-w-[150px] sm:max-w-xs">
+            <div className="truncate max-w-[110px] xs:max-w-[140px] sm:max-w-xs">
               <h3 className="font-serif font-bold text-xs sm:text-sm text-white truncate">
                 {book.title}
               </h3>
-              <p className="text-[10px] text-[#A6A29D] truncate">
+              <p className="text-[9px] sm:text-[10px] text-[#A6A29D] truncate">
                 {book.author} · {book.publisher}
               </p>
             </div>
           </div>
 
           {/* View Mode Toggle Buttons */}
-          <div className="hidden md:flex items-center gap-1 p-1 rounded-lg bg-black/40 border border-white/10 text-xs">
+          <div className="hidden lg:flex items-center gap-1 p-1 rounded-lg bg-black/40 border border-white/10 text-xs">
             <button
               onClick={() => setViewMode('flipbook')}
               className={`py-1 px-2.5 rounded-md flex items-center gap-1.5 font-semibold transition-colors cursor-pointer ${
@@ -689,10 +689,10 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
         </div>
 
         {/* Right Controls: Jump to Page, Search, TOC, Sound, TTS, Font, Themes, Fullscreen, Close */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Jump to Page Input Box */}
-          <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-1">
-            <span className="text-[11px] text-[#A6A29D] hidden md:inline">পৃষ্ঠা:</span>
+          <div className="hidden xs:flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-1.5 sm:px-2 py-1">
+            <span className="text-[10px] sm:text-[11px] text-[#A6A29D] hidden md:inline">পৃষ্ঠা:</span>
             <input
               type="text"
               placeholder={`${pageIndex || 1}`}
@@ -707,7 +707,7 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
                   }
                 }
               }}
-              className="w-10 sm:w-12 text-center text-xs bg-white/10 text-white rounded border border-white/20 py-0.5 font-mono focus:outline-hidden focus:border-[#E0C268]"
+              className="w-8 sm:w-12 text-center text-xs bg-white/10 text-white rounded border border-white/20 py-0.5 font-mono focus:outline-hidden focus:border-[#E0C268]"
               title="পৃষ্ঠা নম্বর লিখে Enter চাপুন"
             />
             <button
@@ -718,7 +718,7 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
                   setPageInput('');
                 }
               }}
-              className="text-[10px] font-bold text-[#1A1A1A] bg-[#E0C268] hover:bg-[#C9A227] px-1.5 py-0.5 rounded cursor-pointer transition-colors"
+              className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] bg-[#E0C268] hover:bg-[#C9A227] px-1 sm:px-1.5 py-0.5 rounded cursor-pointer transition-colors"
             >
               যান
             </button>
@@ -727,29 +727,29 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
           {/* Book Search Button */}
           <button
             onClick={() => setBookSearchOpen(!bookSearchOpen)}
-            className={`p-2 rounded-lg border transition-colors cursor-pointer ${
+            className={`p-1.5 sm:p-2 rounded-lg border transition-colors cursor-pointer ${
               bookSearchOpen ? 'bg-[#E0C268] text-[#1A1A1A] border-[#E0C268]' : 'border-white/10 hover:bg-white/10 text-white'
             }`}
             title="বইয়ের বিষয়বস্তু খুঁজুন"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
 
           {/* Table of Contents Button */}
           <button
             onClick={() => setTocOpen(!tocOpen)}
-            className={`p-2 rounded-lg border transition-colors cursor-pointer ${
+            className={`p-1.5 sm:p-2 rounded-lg border transition-colors cursor-pointer ${
               tocOpen ? 'bg-[#E0C268] text-[#1A1A1A] border-[#E0C268]' : 'border-white/10 hover:bg-white/10 text-white'
             }`}
             title="সূচিপত্র"
           >
-            <List className="w-4 h-4" />
+            <List className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
 
           {/* Sound Toggle (Paper Flip SFX) */}
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className={`p-2 rounded-lg border transition-colors cursor-pointer ${
+            className={`hidden sm:flex p-2 rounded-lg border transition-colors cursor-pointer ${
               soundEnabled ? 'border-white/20 text-[#E0C268] bg-white/5' : 'border-white/10 text-[#8C8882]'
             }`}
             title={soundEnabled ? 'সাউন্ড অন (পেজ উল্টানোর শব্দ)' : 'সাউন্ড অফ'}
@@ -761,12 +761,12 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
           {speechSynthesisAvailable && (
             <button
               onClick={handleToggleAudio}
-              className={`p-2 rounded-lg border transition-colors cursor-pointer ${
+              className={`p-1.5 sm:p-2 rounded-lg border transition-colors cursor-pointer ${
                 isPlayingAudio ? 'bg-green-600 text-white border-green-500 animate-pulse' : 'border-white/10 hover:bg-white/10 text-white'
               }`}
               title={isPlayingAudio ? 'পাঠ থামান' : 'বাংলায় অডিও শুনুন'}
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           )}
 
@@ -790,7 +790,7 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
           </div>
 
           {/* Paper Theme Selectors */}
-          <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg p-1">
+          <div className="hidden sm:flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg p-1">
             <button
               onClick={() => setTheme('cream')}
               className={`w-5 h-5 rounded-full bg-[#FDFCFB] border transition-all ${
@@ -826,17 +826,18 @@ export const BookReaderModal: React.FC<BookReaderModalProps> = ({ book, onClose 
           {/* Fullscreen Toggle */}
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-lg border border-white/10 hover:bg-white/10 text-white cursor-pointer"
+            className="hidden sm:flex p-2 rounded-lg border border-white/10 hover:bg-white/10 text-white cursor-pointer"
             title="ফুলস্ক্রিন"
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
 
-          {/* Close Modal */}
+          {/* Close Modal - Prominent and always visible on mobile & desktop */}
           <button
             onClick={onClose}
-            className="p-2 rounded-lg bg-white/10 hover:bg-red-600/80 text-white transition-colors cursor-pointer ml-1"
-            title="বন্ধ করুন"
+            className="p-2 sm:p-2 rounded-xl bg-red-600/90 hover:bg-red-700 text-white transition-all cursor-pointer ml-1 shadow-md flex items-center justify-center shrink-0 active:scale-95"
+            title="রিডার বন্ধ করুন"
+            aria-label="Close Reader"
           >
             <X className="w-5 h-5" />
           </button>
