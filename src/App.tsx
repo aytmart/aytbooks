@@ -57,6 +57,10 @@ export default function App() {
 
   const handleOpenReader = (book: Book) => {
     setSelectedBook(null);
+    if (book.pdfUrl) {
+      window.open(book.pdfUrl, '_blank', 'noopener');
+      return;
+    }
     setReadingBook(book);
   };
 
