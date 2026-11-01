@@ -7,6 +7,7 @@ import { FeatureBand } from './components/FeatureBand';
 import { QuoteBar } from './components/QuoteBar';
 import { BookDetailModal } from './components/BookDetailModal';
 import { BookReaderModal } from './components/BookReaderModal';
+import { AuthorShelf } from './components/AuthorShelf';
 import { PregnancyRoutineModal } from './components/PregnancyRoutineModal';
 import { AllBooksView } from './components/AllBooksView';
 import { AuthorsView } from './components/AuthorsView';
@@ -91,6 +92,8 @@ export default function App() {
               onToggleSave={handleToggleSave}
               savedBookIds={savedBookIds}
             />
+
+            <AuthorShelf books={BOOKS_DATA} onSelectBook={handleOpenDetail} onReadBook={handleOpenReader} />
 
             {/* Feature Band */}
             <FeatureBand />
