@@ -98,7 +98,7 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
               </div>
 
               <div className="flex items-center justify-between text-[10px] text-[#E0C268] border-t border-[#C9A227]/30 pt-1.5 font-mono">
-                <span className="font-bold">{book.currency}{book.price}</span>
+                <span className="font-bold">{book.price > 0 ? `${book.currency}${book.price}` : 'ফ্রি'}</span>
                 <span className="text-[9px] bg-emerald-600/90 px-1.5 py-0.5 rounded text-white font-bold flex items-center gap-1">
                   <BookOpen className="w-2.5 h-2.5" /> ফ্রি পড়ুন
                 </span>

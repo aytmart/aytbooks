@@ -155,7 +155,7 @@ export const AboutContactView: React.FC = () => {
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs">
             <span className="bg-[#262626] text-[#FDFCFB] px-3.5 py-1.5 rounded-md border border-[#3D3D3D]">📍 সীমাবাড়ী, চান্দাইকোনা, শেরপুর, বগুড়া</span>
-            <span className="bg-[#262626] text-[#E0C268] font-mono px-3.5 py-1.5 rounded-md border border-[#3D3D3D]">📞 01713-728938</span>
+            <span className="bg-[#262626] text-[#E0C268] font-mono px-3.5 py-1.5 rounded-md border border-[#3D3D3D]">📞 01516-501969</span>
           </div>
         </div>
       </div>

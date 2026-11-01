@@ -52,7 +52,7 @@ export const AUTHORS: Author[] = [
     bio: '‘সৃষ্টিকর্তা কে?’ গবেষণা গ্রন্থের সম্মানিত লেখক ও সংকলক। দ্বীনের দাওয়াত প্রকাশনীর প্রতিষ্ঠাতা।',
     avatarIcon: '✍️',
     bookCount: 9,
-    phone: '01713-728938'
+    phone: '01516-501969'
   },
   {
     id: 'ayt-books-editorial',
@@ -83,6 +83,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'বাংলা অর্থসহ আল্লাহ তায়ালার গুণবাচক নামসমূহ।',
     tags: ['আল্লাহর নাম', 'আসমাউল হুসনা'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/al-asma-ul-husna.pdf',
   },
   {
@@ -130,6 +131,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'পবিত্র কুরআনের পরিচয় এবং কুরআন কেন পড়া ও জানা প্রয়োজন, তা নিয়ে আলোচনা।',
     tags: ['কুরআন', 'আকিদা'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/mohapobitro-quran-ki-ebong-keno.pdf',
   },
   {
@@ -148,6 +150,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'কুরআন ও হাদীসের আলোকে দাওয়াত ও তাবলীগ, তাবলীগ জামাতের ইতিহাস, উদ্দেশ্য, কার্যক্রম, ও ঈমান-আমল শিক্ষা।',
     tags: ['তাবলীগ', 'দাওয়াত'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/allahr-rastay-tin-chilla.pdf',
   },
   {
@@ -166,6 +169,7 @@ export const BOOKS_DATA: Book[] = [
     summary: '"আল্লাহ্‌র রাস্তায় তিন চিল্লা" কিতাবের সংক্ষেপ — ছয় নম্বর, পাঁচ কাজ, মাশওয়ারা, ইয়ালান, তা\'লীম, গাশত ও মুজাকারা।',
     tags: ['তাবলীগ', 'দাওয়াত'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/allahr-rastay-tin-din.pdf',
   },
   {
@@ -184,6 +188,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'ইসলামের দৃষ্টিতে সুখী ও সুস্থ জীবনযাপনের গাইড (১ম খণ্ড)।',
     tags: ['লাইফ স্টাইল', 'স্বাস্থ্য'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/life-style-1.pdf',
   },
   {
@@ -202,6 +207,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'ইসলামের দৃষ্টিতে সুখী ও সুস্থ জীবনযাপনের গাইড (২য় খণ্ড)।',
     tags: ['লাইফ স্টাইল', 'স্বাস্থ্য'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/life-style-2.pdf',
   },
   {
@@ -220,6 +226,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'ইসলামের দৃষ্টিতে সুখী ও সুস্থ জীবনযাপনের গাইড (৩য় খণ্ড)।',
     tags: ['লাইফ স্টাইল', 'স্বাস্থ্য'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/life-style-3.pdf',
   },
   {
@@ -238,6 +245,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'কবর ও আখিরাত স্মরণ করানো গজল সংকলন।',
     tags: ['গজল', 'আখিরাত'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/murdar-artonad.pdf',
   },
   {
@@ -256,6 +264,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'পবিত্র কুরআন ও হাদীস থেকে প্রখ্যাত বুজুর্গানে দ্বীনের গুরুত্বপূর্ণ বয়ান সমূহ।',
     tags: ['ওয়াজ', 'বয়ান'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/bishal-waz-bhandar.pdf',
   },
   {
@@ -274,6 +283,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'শিক্ষাপ্রতিষ্ঠানে সন্ত্রাসের কুফল নিয়ে লেখা নাটিকা।',
     tags: ['নাটিকা', 'শিক্ষা'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/shikkhangone-sontrash-natika.pdf',
   },
   {
@@ -292,6 +302,7 @@ export const BOOKS_DATA: Book[] = [
     summary: 'অবসরপ্রাপ্ত সার্জেন্ট এস. এম. খোদা বক্স রচিত গজল।',
     tags: ['গজল', 'তাবলীগ'],
     isFree: true,
+    isNewRelease: true,
     pdfUrl: 'pdfs/sergeant-khoda-box-gojol.pdf',
   },
 

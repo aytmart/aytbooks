@@ -118,7 +118,7 @@ export const SmartSearchOverlay: React.FC<SmartSearchOverlayProps> = ({
                   <h4 className="font-serif text-sm font-bold text-[#1A1A1A] group-hover:text-neutral-700">
                     {book.title}
                   </h4>
-                  <p className="text-xs text-[#8C8882] font-serif">{book.author} · <span className="font-mono">{book.pages} পৃষ্ঠা · {book.currency}{book.price}</span></p>
+                  <p className="text-xs text-[#8C8882] font-serif">{book.author} · <span className="font-mono">{book.pages} পৃষ্ঠা · {book.price > 0 ? `${book.currency}${book.price}` : 'ফ্রি'}</span></p>
                 </div>
               </div>
 

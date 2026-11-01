@@ -227,7 +227,7 @@ export default function App() {
                         <div>
                           <h4 className="font-serif text-xs font-bold line-clamp-1">{book.title}</h4>
                           <span className="text-[11px] text-[#8C8882] block">{book.author}</span>
-                          <span className="text-xs font-bold text-[#1A1A1A] font-mono">{book.currency}{book.price}</span>
+                          <span className="text-xs font-bold text-[#1A1A1A] font-mono">{book.price > 0 ? `${book.currency}${book.price}` : 'ফ্রি'}</span>
                         </div>
                       </div>
 

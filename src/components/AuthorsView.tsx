@@ -88,7 +88,7 @@ export const AuthorsView: React.FC<AuthorsViewProps> = ({ onSelectBook, onReadBo
                           <span className="font-serif text-[10px] font-bold leading-tight line-clamp-3 text-center text-[#FDFCFB]">
                             {book.title}
                           </span>
-                          <span className="text-[7px] text-[#E0C268] text-right font-mono font-bold">{book.currency}{book.price}</span>
+                          <span className="text-[7px] text-[#E0C268] text-right font-mono font-bold">{book.price > 0 ? `${book.currency}${book.price}` : 'ফ্রি'}</span>
                         </div>
                         <h5 className="font-serif text-xs font-bold text-[#1A1A1A] line-clamp-1">
                           {book.title}
